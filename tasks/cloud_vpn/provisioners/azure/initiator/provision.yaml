@@ -29,7 +29,7 @@
   azure_rm_deployment:
     resource_group: "{{ cloud_vpn_name }}-initiator-resource-group"
     deployment_name: "{{ cloud_vpn_name }}-initiator-template"
-    template: "{{ lookup('template', 'templates/azure/initiator/provision.j2') }}"
+    template: "{{ lookup('template', 'templates/cloud_vpn/provisioners/azure/initiator/provision.j2') }}"
     subscription_id: "{{ cloud_vpn_initiator_azure_subscription_id }}"
     tenant: "{{ cloud_vpn_initiator_azure_tenant }}"
     client_id: "{{ cloud_vpn_initiator_azure_client_id }}"
@@ -39,21 +39,3 @@
 - name: Set initiator IP fact
   set_fact:
     cloud_vpn_initiator_public_ip: "{{ out['deployment']['instances'][0]['ips'][0]['public_ip'] }}"
-
-- name: Add initiator host
-  add_host:
-    name: initiator
-    ansible_host: "{{ cloud_vpn_initiator_public_ip }}"
-    ansible_user: "{{ cloud_vpn_initiator_user }}"
-    ansible_connection: "{{ cloud_vpn_initiator_ansible_connection }}"
-    ansible_network_os: "{{ cloud_vpn_initiator_ansible_network_os }}"
-    ansible_ssh_private_key_file: "{{ cloud_vpn_initiator_ssh_private_key_file }}"
-
-- name: Wait for SSH port to be reachable
-  wait_for:
-    host: "{{ cloud_vpn_initiator_public_ip }}"
-    port: 22
-
-- name: Pause for SSH daemon to settle and accept connections
-  pause:
-    seconds: "{{ cloud_vpn_pause_before_config_seconds }}"

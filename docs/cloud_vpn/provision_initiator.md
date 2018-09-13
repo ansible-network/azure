@@ -2,7 +2,7 @@
 The `cloud_vpn/provision_initiator` function will provision a VPN initiator
 on Azure.
 It is performed by calling the `cloud_vpn/provision_initiator` task from the role.
-The task will process variables needed for provisioning a VM and call Azure Cloudformation.
+The task will process variables needed for provisioning a VM and call Azure Resource Manager.
 
 Below is an example to provision a VM that will be the initiator of the VPN on Azure.
 

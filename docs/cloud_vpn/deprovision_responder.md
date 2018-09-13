@@ -1,4 +1,4 @@
-# Provision responder
+# Deprovision responder
 The `cloud_vpn/deprovision_responder` function will deprovision a VPN responder
 on Azure.
 It is performed by calling the `cloud_vpn/deprovision_responder` task from the role.

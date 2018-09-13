@@ -1,4 +1,4 @@
-# Provision initiator
+# Deprovision initiator
 The `cloud_vpn/deprovision_initiator` function will deprovision a VPN initiator
 on Azure.
 It is performed by calling the `cloud_vpn/deprovision_initiator` task from the role.

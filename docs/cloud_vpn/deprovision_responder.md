@@ -16,6 +16,7 @@ Below is an example to deprovision a VPN responder VM on Azure.
         tasks_from: cloud_vpn/deprovision_responder
       vars:
         cloud_vpn_name: myvpn
+        cloud_vpn_responder_provisioner: azure
 ```
 
 ## Notes

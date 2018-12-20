@@ -28,6 +28,7 @@
 - name: Create Azure initiator stack
   azure_rm_deployment:
     resource_group: "{{ cloud_vpn_name }}-initiator-resource-group"
+    location: "{{ cloud_vpn_initiator_azure_region }}"
     deployment_name: "{{ cloud_vpn_name }}-initiator-template"
     template: "{{ lookup('template', 'templates/cloud_vpn/provisioners/azure/initiator/provision.j2') }}"
     subscription_id: "{{ cloud_vpn_initiator_azure_subscription_id }}"

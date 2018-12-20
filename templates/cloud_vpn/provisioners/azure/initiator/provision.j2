@@ -158,11 +158,13 @@
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[variables('vmName')]",
       "location": "[parameters('location')]",
+{% if cloud_vpn_initiator_azure_image_needs_plan|default(False) %}
       "plan": {
         "name": "{{ cloud_vpn_initiator_azure_image_sku }}",
         "publisher": "{{ cloud_vpn_initiator_azure_image_publisher }}",
         "product": "{{ cloud_vpn_initiator_azure_image_offer }}"
       },
+{% endif %}
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
         "[resourceId('Microsoft.Network/networkInterfaces/', '{{ cloud_vpn_name }}-initiator-network-interface')]",

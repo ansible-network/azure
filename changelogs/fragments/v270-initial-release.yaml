@@ -1,0 +1,5 @@
+major_changes:
+- 2.7 release of the ``azure`` Ansible role.
+bugfixes:
+- Fix default location to westus
+- Add plan dict to ARM only if image is non-free via new needs_image_plan flag

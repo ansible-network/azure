@@ -1,0 +1,45 @@
+---
+- name: Create Azure VPN responder stack
+  azure_rm_deployment:
+    resource_group: "{{ cloud_vpn_name }}-responder-resource-group"
+    location: "{{ cloud_vpn_responder_azure_region }}"
+    deployment_name: "{{ cloud_vpn_name }}-responder-template"
+    template: "{{ lookup('template', 'templates/cloud_vpn/providers/azure_vpn/responder/configure_vpn_static.j2') }}"
+    subscription_id: "{{ cloud_vpn_responder_azure_subscription_id }}"
+    tenant: "{{ cloud_vpn_responder_azure_tenant }}"
+    client_id: "{{ cloud_vpn_responder_azure_client_id }}"
+    secret: "{{ cloud_vpn_responder_azure_secret }}"
+    parameters:
+      vpnType:
+        value: RouteBased
+      virtualNetworkName:
+        value: "{{ cloud_vpn_responder_vpc_id }}"
+      localGatewayName:
+        value: "{{ cloud_vpn_name }}-responder-local-gw"
+      localGatewayIpAddress:
+        value: "{{ cloud_vpn_initiator_public_ip }}"
+      localAddressPrefix:
+        value:
+          - "{{ cloud_vpn_initiator_cidr }}"
+      gatewayPublicIPName:
+        value: "{{ cloud_vpn_name }}-responder-gw-public-ip"
+      gatewayName:
+        value: "{{ cloud_vpn_name }}-responder-gw"
+      connectionName:
+        value: "{{ cloud_vpn_name }}-responder-connection"
+      sharedKey:
+        value: "{{ cloud_vpn_psk }}"
+
+- name: Get Azure public IP facts
+  azure_rm_publicipaddress_facts:
+    name: "{{ cloud_vpn_name }}-responder-gw-public-ip"
+    resource_group: "{{ cloud_vpn_name }}-responder-resource-group"
+    subscription_id: "{{ cloud_vpn_responder_azure_subscription_id }}"
+    tenant: "{{ cloud_vpn_responder_azure_tenant }}"
+    client_id: "{{ cloud_vpn_responder_azure_client_id }}"
+    secret: "{{ cloud_vpn_responder_azure_secret }}"
+  register: out
+
+- name: Set cloud_vpn_responder_public_ip fact
+  set_fact:
+    cloud_vpn_responder_public_ip: "{{ out.ansible_facts.azure_publicipaddresses[0].properties.ipAddress }}"

@@ -1,4 +1,4 @@
-# azure
+# Azure
 
 This Ansible Network role provides a set of platform dependent fuctions that
 are designed to work with Azure.
